@@ -1,20 +1,12 @@
 name: Deploy PWA
 
 on:
-  release:
-    types: [published]
-  push:
-    branches: [main]
+  # release:
+  #   types: [published]
+  # push:
+  #   branches: [main]
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'The environment to deploy to'
-        type: choice
-        required: true
-        default: 'staging'
-        options:
-          - staging
-          - production
       tag-version:
         description: 'The tag version, branch name or SHA to checkout'
         required: true
@@ -28,15 +20,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.tag-version || github.ref }}
+          ref: ${{ inputs.tag-version }}
 
       - name: Enable corepack
         run: corepack enable
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '20.5'
           cache: 'yarn'
@@ -91,24 +83,6 @@ jobs:
             ./apps/web/.output
             ./middleware
           outPath: pwa.tar.gz
-
-      - name: Upload build to production
-        if: github.event_name == 'release'  || (github.event_name == 'workflow_dispatch' && ${{ inputs.environment }} == 'production')
-        id: upload-production
-        uses: JantHsueh/upload-file-action@1.0
-        with:
-          url: 'https://pwapublish.114.plenty.rocks'
-          forms: '{ "token": "${{ secrets.URL_ENDPOINT_TOKEN }}" }'
-          fileForms: '{ "file": "pwa.tar.gz" }'
-
-      - name: Upload build to staging
-        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && ${{ inputs.environment }} == 'staging')
-        id: upload-staging
-        uses: JantHsueh/upload-file-action@1.0
-        with:
-          url: 'https://pwapublish.114.plenty.rocks'
-          forms: '{ "token": "${{ secrets.URL_ENDPOINT_TOKEN_STAGING }}" }'
-          fileForms: '{ "file": "pwa.tar.gz" }'
 
       - name: Upload File
         id: upload
