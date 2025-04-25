@@ -38,9 +38,9 @@
             'hover:opacity-100 group-hover:opacity-100 group-focus:opacity-100': !isTablet,
             'opacity-100': isTablet && isClicked && clickedBlockIndex === index,
           },
-          // {
-          //   'max-w-max max-h-max bottom-0 left-0 m-auto': block.type === 'content',
-          // },
+          {
+            'max-w-max max-h-max bottom-0 left-0 m-auto': block.type === 'content',
+          },
         ]"
         :index="index"
         :block="block"
@@ -52,7 +52,7 @@
           <PageBlock
             :index="index"
             :block="slotProps.contentBlock"
-            :root="false"
+            :root="true"
             :is-preview="isPreview"
             :disable-actions="disableActions"
             :is-clicked="isClicked"
