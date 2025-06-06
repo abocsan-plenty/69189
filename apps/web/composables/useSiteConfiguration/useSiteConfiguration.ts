@@ -81,7 +81,7 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
 
     document.head.appendChild(link);
 
-    state.value.currentFont = `font-family: '${fontName}'`;
+    state.value.currentFont = `font-family: '${fontName}';background: #e0e0e0;padding: 2rem;`;
   };
 
   const setColorProperties: SetTailwindColorProperties = (type: string, tailwindPalette: TailwindPalette) => {
