@@ -48,6 +48,7 @@ import type { Swiper as SwiperType } from 'swiper';
 
 const { activeSlideIndex, setIndex } = useCarousel();
 const { content, index, configuration, meta } = defineProps<CarouselStructureProps>();
+const isInternalChange = ref(false);
 
 const handleArrows = () => {
   const viewport = useViewport();
@@ -82,19 +83,23 @@ const navigationConfig = computed(() => {
 
 const onSwiperInit = (swiper: SwiperType) => {
   slider = swiper;
-
-  setIndex(meta.uuid, swiper.realIndex);
-};
-
-const onSlideChange = async (swiper: SwiperType) => {
-  if (swiper.realIndex !== activeSlideIndex.value[meta.uuid]) {
-    await nextTick();
-    swiper.update();
-
-    setIndex(meta.uuid, swiper.realIndex);
+  if (activeSlideIndex.value[meta.uuid] == null) {
+    const actualIndex = swiper.realIndex;
+    setIndex(meta.uuid, actualIndex);
   }
 };
+const onSlideChange = (swiper: SwiperType) => {
+  const realIndex = swiper.realIndex;
 
+  if (isInternalChange.value) {
+    isInternalChange.value = false;
+    return;
+  }
+
+  if (realIndex !== activeSlideIndex.value[meta.uuid]) {
+    setIndex(meta.uuid, realIndex);
+  }
+};
 const getSlideAdjustedIndex = (slideIndex: number) => {
   return activeSlideIndex.value[meta.uuid] === slideIndex ? index : index + slideIndex;
 };
@@ -103,8 +108,12 @@ watch(
   () => activeSlideIndex.value[meta.uuid],
   (newIndex) => {
     if (slider && !slider.destroyed && slider.realIndex !== newIndex) {
-      slider.update();
-      slider.slideTo(newIndex);
+      isInternalChange.value = true;
+      if (slider.params.loop) {
+        slider.slideToLoop(newIndex);
+      } else {
+        slider.slideTo(newIndex);
+      }
     }
   },
   { flush: 'post' },
