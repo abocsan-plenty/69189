@@ -26,6 +26,8 @@ export const useSiteSettings: UseSiteSettingsReturn = (setting?: string) => {
   };
 
   const getSetting: GetSetting = () => {
+    console.log('public: ', useRuntimeConfig().public);
+    console.log('env: ', process.env);
     return (
       (state.value.data?.[setting as string] as string) || (useRuntimeConfig().public?.[setting as string] as string)
     );
