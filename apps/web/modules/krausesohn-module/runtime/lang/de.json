@@ -1,0 +1,35 @@
+{
+  "customerWish": "Hinweise und Wünsche (Fragen bitte direkt per E-Mail oder Telefon stellen)",
+  "krausesohn": {
+    "termsInfo": "Es gelten unsere {terms}, unser {cancellationRights} und unsere {privacyPolicy}. Mit dem Klick auf Kaufen nehmen Sie diese zur Kenntnis.",
+    "telefoneNumber": "Telefonnummer",
+    "showOptions": "Zum Artikel",
+    "search": "Produkte Suchen"
+  },
+  "categories": {
+    "legal": {
+      "subcategories": {
+        "batteryInfo": "Batteriehinweis",
+        "paymentInfo": "Zahlungsarten",
+        "shippingInfo": "Versand",
+        "faqInfo": "Häufig gestellte Fragen",
+        "cookiesInfo": "Cookies"
+      }
+    },
+    "additional": {
+      "label": "Informationen",
+      "subcategories": {
+        "sizesInfo": "Kostüm Größen",
+        "retoureInfo": "Rücksendungen / Retouren",
+        "couponsInfo": "Gutscheine",
+        "winInfo": "Gewinnspiel"
+      }
+    },
+    "CookieBar": {
+      "moduleMatomo": {
+        "provider": "Krause & Sohn GmbH",
+        "status": "Der Cookie wird zur Analyse des Nutzungsverhaltens genutzt."
+      }
+    }
+  }
+}
